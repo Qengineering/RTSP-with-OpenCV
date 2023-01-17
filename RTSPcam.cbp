@@ -32,28 +32,20 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add option="-pthread" />
-			<Add directory="/usr/include/opencv4" />
 			<Add directory="/usr/include/gstreamer-1.0" />
 			<Add directory="/usr/lib/aarch64-linux-gnu/glib-2.0/include" />
 			<Add directory="/usr/include/glib-2.0" />
-			<Add directory="/home/jetson/software/RTSPcam/include/" />
+			<Add directory="/usr/local/include/opencv4" />
+			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config --libs --cflags opencv4`" />
-			<Add option="`pkg-config --libs --cflags glib-2.0`" />
 			<Add option="-pthread" />
-			<Add library="/usr/lib/aarch64-linux-gnu/libgobject-2.0.so" />
-			<Add library="/usr/lib/aarch64-linux-gnu/libgstreamer-1.0.so" />
-			<Add library="/usr/lib/aarch64-linux-gnu/libgstapp-1.0.so" />
 			<Add directory="/usr/local/lib/" />
 		</Linker>
 		<Unit filename="include/RTSPcam.h" />
 		<Unit filename="src/RTSPcam.cpp" />
 		<Unit filename="src/main.cpp" />
-		<Extensions>
-			<code_completion />
-			<debugger />
-			<envvars />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

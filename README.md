@@ -17,8 +17,8 @@ To run the application, you have to:
 ------------
 
 ## Tips.
-Use only a ***wired*** Ethernet connection for your RTSP stream.<br>
-Wi-Fi can be unstable. And because the RTSP protocol is sensitive to even just one missing frame, the stream can easily crash.<br><br>
+Use only a ***wired*** Ethernet connection for your RTSP stream. Wi-Fi can be unstable.<br>
+Because the RTSP protocol is sensitive to even just one missing frame, the stream can easily crash.<br><br>
 If you are using the stream in a deep learning app, adjust your resolution and frame rate to the requirements of the deep learning model.<br>
 It is not a good idea to send a 1280x960 stream at 30 FPS if your model has a 416x416 input and takes 200 mSec to process a single frame.<br>
 It only costs extra memory and processing power.<br><br>

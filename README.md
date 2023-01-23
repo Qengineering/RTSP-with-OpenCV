@@ -1,5 +1,5 @@
-# RTSP - UDP - TCP streams in OpenCV (with neglectable latency)
-It is a known issue with streams and time-consuming algorithms such as deep learning frameworks. You're getting out of sync if individual frames take longer than your stream's frame rate to process. There is an increasing delay between reality and the captured images.<br>
+# RTSP streams in OpenCV (with neglectable latency)
+It is a known issue with RTSP streams and time-consuming algorithms such as deep learning frameworks. You're getting out of sync if individual frames take longer than your stream's frame rate to process. There is an increasing delay between reality and the captured images.<br>
 There are two possible solutions to this problem.<br>
 You could continuously grabbing images in a seperated thread.<br>
 Or determine the missed images and skip them before grabbing a new frame. The latter solution is implemented here.<br><br>
@@ -30,14 +30,6 @@ To run the application load the project file RTSPcam.cbp in Code::Blocks.<br><br
 If you are using a Jetson Nano, you have to change the location where OpenCV has stored its header files to `/usr/include/opencv4`<br><br>
 At line 16 in main.cpp the stream is opened.
 #### RTSP
-```
-cam.Open("rtsp://192.168.178.129:8554/test/");
-```
-#### UDP
-```
-cam.Open("rtsp://192.168.178.129:8554/test/");
-```
-#### TCP
 ```
 cam.Open("rtsp://192.168.178.129:8554/test/");
 ```

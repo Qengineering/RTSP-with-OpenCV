@@ -29,7 +29,7 @@ int main()
 
         //show frame
         cv::imshow("Camera",frame);
-        char esc = cv::waitKey(100);
+        char esc = cv::waitKey(2);
         if(esc == 27) break;
     }
 

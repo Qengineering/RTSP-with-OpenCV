@@ -54,6 +54,15 @@ Sender: RaspiCam with Raspberry Pi **Bullseye** OS<br>
 `gst-launch-1.0 -v libcamerasrc ! video/x-raw,width=640,height=480, framerate=30/1 ! videoconvert ! jpegenc ! tcpserversink  host=192.168.178.32 port=5000`<br><br>
 Note, `host=192.168.178.32` being the IP address of the sender.
 
+#### RaspiCam (only Buster or Bullseye legacy stack)
+```
+cam.Open(0);
+```
+#### Webcam (only Buster OS or Bullseye legacy stack)
+```
+cam.Open(0); //if RaspiCam is not connected
+cam.Open(1); //if RaspiCam is connected
+```
 #### MP4
 ```
 cam.Open("James.mp4");

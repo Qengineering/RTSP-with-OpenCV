@@ -27,6 +27,7 @@ It only costs extra memory and processing power.<br>
 
 ## Running the app.
 To run the application load the project file RTSPcam.cbp in Code::Blocks.<br> 
+If you are using a Jetson Nano, you have to change the location where OpenCV has stored its header files to `/usr/include/opencv4`<br><br>
 At line 16 in main.cpp the stream is opened.
 #### RTSP
 ```
@@ -42,15 +43,15 @@ cam.Open("rtsp://192.168.178.129:8554/test/");
 ```
 #### MP4
 ```
-cam.Open("rtsp://192.168.178.129:8554/test/");
+cam.Open("James.mp4");
 ```
 #### Folder
 ```
-cam.Open("rtsp://192.168.178.129:8554/test/");
+cam.Open("/home/pi/Pictures/Plants");
 ```
 #### Single file
 ```
-cam.Open("rtsp://192.168.178.129:8554/test/");
+cam.Open("/home/pi/Pictures/Garden.jpg");
 ```
 ### Retrieve the stream
 ```cpp

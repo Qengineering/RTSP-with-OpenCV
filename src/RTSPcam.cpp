@@ -38,6 +38,16 @@ void RTSPcam::Open(const string& MyString, int apiPreference)
 {
     struct stat s;
     MyFile = MyString;
+    int Dev=-1;
+
+    try{ Dev=stoi(MyString); }
+    catch( ... ){;}
+
+    if(Dev>=0 && Dev<10){
+        cap->open(Dev);
+        ProcessOpen();
+        return;
+    }
 
     if(stat(MyString.c_str(),&s)==0){
         if(s.st_mode & S_IFREG){
@@ -53,11 +63,8 @@ void RTSPcam::Open(const string& MyString, int apiPreference)
             }
         }
     }
-
     cout << "Connecting to : "<< MyString << endl;
-
     cap->open(MyString, apiPreference);
-
     ProcessOpen();
 }
 //----------------------------------------------------------------------------------------

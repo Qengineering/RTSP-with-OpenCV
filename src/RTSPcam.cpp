@@ -5,6 +5,8 @@
 //----------------------------------------------------------------------------------------
 #include "RTSPcam.h"
 #include <sys/stat.h>
+#include <iostream>
+#include <string>
 
 #define DUMMY 35
 #define COUNT 35
@@ -38,7 +40,11 @@ void RTSPcam::Open(const string& MyString, int apiPreference)
 {
     struct stat s;
     MyFile = MyString;
+    string Ext;
     int Dev=-1;
+
+    UsePicture = false;
+    UseFolder  = false;                 // true when a only folder name is loaded.
 
     try{ Dev=stoi(MyString); }
     catch( ... ){;}
@@ -51,9 +57,20 @@ void RTSPcam::Open(const string& MyString, int apiPreference)
 
     if(stat(MyString.c_str(),&s)==0){
         if(s.st_mode & S_IFREG){
-            UsePicture = true;
-            cout << "Open picture : " << MyFile << endl;
-            return;
+            Ext=MyString.substr(MyString.find_last_of(".") + 1);
+            std::transform(Ext.begin(), Ext.end(), Ext.begin(),[](unsigned char c){ return std::tolower(c); });
+            if(Ext=="bmp" || Ext=="jpg" || Ext=="png" ){
+                UsePicture = true;
+                cout << "Open picture : " << MyFile << endl;
+                return;
+            }
+            else{
+                //video file
+                cout << "Open movie : " << MyFile << endl;
+                cap->open(MyString, apiPreference);
+                ProcessOpen();
+                return;
+            }
         }
         else{
             if(s.st_mode & S_IFDIR){
@@ -63,6 +80,7 @@ void RTSPcam::Open(const string& MyString, int apiPreference)
             }
         }
     }
+
     cout << "Connecting to : "<< MyString << endl;
     cap->open(MyString, apiPreference);
     ProcessOpen();

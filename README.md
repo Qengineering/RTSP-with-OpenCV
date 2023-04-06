@@ -4,7 +4,7 @@ There are two possible solutions to this problem.<br>
 You could continuously grabbing images in a [seperated thread](https://github.com/Qengineering/Multi-Thread-Camera-OpenCV).<br>
 Or determine the missed images and skip them before grabbing a new frame. The latter solution is implemented here.<br><br>
 The code speaks for itself.<br>
-You can either use GStreamer of FFmpeg to open the stream.<br>
+You can either use GStreamer or FFmpeg to open the stream.<br>
 RTSP streams usually are compressed with H264. Therefore your decompression is sensitive for timing issues, like threads halted for some time.
 
 ------------

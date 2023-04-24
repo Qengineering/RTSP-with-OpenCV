@@ -5,8 +5,6 @@
 //----------------------------------------------------------------------------------------
 #include "RTSPcam.h"
 #include <sys/stat.h>
-#include <iostream>
-#include <string>
 
 #define DUMMY 35
 #define COUNT 35
@@ -16,6 +14,7 @@ using namespace std;
 RTSPcam::RTSPcam(void): cap(NULL), FirstPic(true), FrameCnt(0)
 {
     cap = new cv::VideoCapture;
+    UseMovie   = false;
     UsePicture = false;
     UseFolder  = false;                 // true when a only folder name is loaded.
     CurrentFileName = "";
@@ -38,37 +37,28 @@ void RTSPcam::Open(const int Value)
 //----------------------------------------------------------------------------------------
 void RTSPcam::Open(const string& MyString, int apiPreference)
 {
+    size_t p;
     struct stat s;
     MyFile = MyString;
     string Ext;
-    int Dev=-1;
 
+    UseMovie   = false;
     UsePicture = false;
     UseFolder  = false;                 // true when a only folder name is loaded.
 
-    try{ Dev=stoi(MyString); }
-    catch( ... ){;}
-
-    if(Dev>=0 && Dev<10){
-        cap->open(Dev);
-        ProcessOpen();
-        return;
-    }
-
     if(stat(MyString.c_str(),&s)==0){
         if(s.st_mode & S_IFREG){
-            Ext=MyString.substr(MyString.find_last_of(".") + 1);
-            std::transform(Ext.begin(), Ext.end(), Ext.begin(),[](unsigned char c){ return std::tolower(c); });
-            if(Ext=="bmp" || Ext=="jpg" || Ext=="png" ){
+            p = MyFile.find_last_of(".");
+            if (std::string::npos != p){
+                Ext = MyFile.substr(p+1, MyFile.length());
+                //cast to lower
+                std::transform(Ext.begin(), Ext.end(), Ext.begin(),
+                    [](unsigned char c){ return std::tolower(c); });
+                UseMovie=(Ext=="mp4" || Ext=="mkv" || Ext=="flv" || Ext=="avi");
+            }
+            if(!UseMovie){
                 UsePicture = true;
                 cout << "Open picture : " << MyFile << endl;
-                return;
-            }
-            else{
-                //video file
-                cout << "Open movie : " << MyFile << endl;
-                cap->open(MyString, apiPreference);
-                ProcessOpen();
                 return;
             }
         }
@@ -82,7 +72,9 @@ void RTSPcam::Open(const string& MyString, int apiPreference)
     }
 
     cout << "Connecting to : "<< MyString << endl;
+
     cap->open(MyString, apiPreference);
+
     ProcessOpen();
 }
 //----------------------------------------------------------------------------------------
@@ -177,7 +169,7 @@ bool RTSPcam::GetLatestFrame(cv::Mat& frame)
             //flush the lost frames
             FrameCnt+=LostFrames;
             for(int n=0;n<LostFrames;n++){
-                if(!cap->read(frame)) break;
+                if(!cap->grab()) break;
             }
         }
     }

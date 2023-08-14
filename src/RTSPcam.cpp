@@ -16,7 +16,7 @@ RTSPcam::RTSPcam(void): cap(NULL), FirstPic(true), FrameCnt(0)
     cap = new cv::VideoCapture;
     UseMovie   = false;
     UsePicture = false;
-    UseFolder  = false;                 // true when a only folder name is loaded.
+    UseFolder  = false;                 // true when only a folder name is loaded.
     CurrentFileName = "";
 }
 //----------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ void RTSPcam::Open(const string& MyString, int apiPreference)
 
     UseMovie   = false;
     UsePicture = false;
-    UseFolder  = false;                 // true when a only folder name is loaded.
+    UseFolder  = false;                 // true when only the folder name is loaded.
 
     if(stat(MyString.c_str(),&s)==0){
         if(s.st_mode & S_IFREG){
@@ -164,7 +164,7 @@ bool RTSPcam::GetLatestFrame(cv::Mat& frame)
         Tyet   = chrono::steady_clock::now();
         Elapse = chrono::duration_cast<chrono::milliseconds> (Tyet - Tgrab).count();
         if(Elapse > FrameTime){
-            LostFrames=ceil(1.15*Elapse/FrameTime);     //1.15 to be sure you have always the latest frame, in case FrameTime isn't accurate
+            LostFrames=ceil(1.25*Elapse/FrameTime);     //1.15 to be sure you always have the latest frame, in case FrameTime isn't accurate
             if(LostFrames>500) LostFrames=500;          //don't wait forever.
             //flush the lost frames
             FrameCnt+=LostFrames;
